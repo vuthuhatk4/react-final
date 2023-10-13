@@ -1,7 +1,5 @@
 const Bookshelves = ({ book, moveOption }) => {
-  let shelfValue = (book.shelf)
-      ? book.shelf
-      : 'move'
+  let shelfValue = book.shelf ? book.shelf : "move";
   return (
     <li>
       <div className="book">

@@ -17,12 +17,9 @@ function App() {
 
   const searchBooks = (query) => {
     if (query) {
-      BooksAPI.search(query).then((result) => {
-        updateSearchedResult(result);
-        if (result.error !== "empty query") {
-          setFilteredBooks(result);
-        } else {
-          setFilteredBooks([]);
+      BooksAPI.search(query, 20).then((result) => {
+        if (result && result.length) {
+          updateSearchedResult(result);
         }
       });
     } else {
