@@ -9,6 +9,7 @@ import { useEffect } from "react";
 function App() {
   const [allBooks, setAllBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
+
   useEffect(() => {
     BooksAPI.getAll().then((books) => {
       setAllBooks(books);
@@ -19,7 +20,14 @@ function App() {
     if (query) {
       BooksAPI.search(query, 20).then((result) => {
         if (result && result.length) {
-          updateSearchedResult(result);
+          for (let value of result) {
+            for (let book of allBooks) {
+              if (value.id === book.id) {
+                value.shelf = book.shelf;
+              }
+            }
+          }
+          setFilteredBooks(result);
         }
       });
     } else {
@@ -31,21 +39,19 @@ function App() {
     BooksAPI.update(book, shelf).then((updated) =>
       BooksAPI.getAll().then((books) => {
         setAllBooks(books);
-        updateSearchedResult(filteredBooks);
+        for (let value of filteredBooks) {
+          value.shelf = "none";
+          for (let book of books) {
+            if (value.id === book.id) {
+              value.shelf = book.shelf;
+            }
+          }
+        }
+        setFilteredBooks(filteredBooks);
       })
     );
   };
 
-  const updateSearchedResult = (values) => {
-    for (let value of values) {
-      for (let book of allBooks) {
-        if (value.id === book.id) {
-          value.shelf = book.shelf;
-        }
-      }
-    }
-    setFilteredBooks(values);
-  };
   return (
     <Routes>
       <Route

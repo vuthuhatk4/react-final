@@ -69,5 +69,6 @@ const ListBooks = ({ books, moveOption }) => {
 };
 ListBooks.propTypes = {
   books: PropTypes.array.isRequired,
+  moveOption: PropTypes.func
 };
 export default ListBooks;
