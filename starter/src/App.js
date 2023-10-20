@@ -21,6 +21,7 @@ function App() {
       BooksAPI.search(query, 20).then((result) => {
         if (result && result.length) {
           for (let value of result) {
+            value.shelf = "none";
             for (let book of allBooks) {
               if (value.id === book.id) {
                 value.shelf = book.shelf;
